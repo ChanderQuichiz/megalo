@@ -7,7 +7,7 @@ import { CreateFieldDto } from './dto/create-field.dto';
 describe('FieldService', () => {
   let service: FieldService;
   const prismaServiceMock = {
-  field: {
+    field: {
       create: jest.fn(),
       findMany: jest.fn(),
       findUnique: jest.fn(),
@@ -34,7 +34,13 @@ describe('FieldService', () => {
   });
 
   it('should create a field', async () => {
-    const createFieldDto: CreateFieldDto = { name: 'Test Field', description: 'This is a test field', sport: 'Soccer', costPerHour: 50, status: 'Available' };
+    const createFieldDto: CreateFieldDto = {
+      name: 'Test Field',
+      description: 'This is a test field',
+      sport: 'Soccer',
+      costPerHour: 50,
+      status: 'Available',
+    };
     prismaServiceMock.field.create.mockResolvedValue(createFieldDto);
 
     const result = await service.create(createFieldDto);
@@ -43,6 +49,4 @@ describe('FieldService', () => {
       data: createFieldDto,
     });
   });
-
-
 });

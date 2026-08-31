@@ -4,7 +4,6 @@ import { FieldService } from './field.service';
 import { describe, beforeEach, it, expect, jest } from '@jest/globals';
 import { CreateFieldDto } from './dto/create-field.dto';
 
-
 describe('FieldController', () => {
   let controller: FieldController;
   const fieldServiceMock = {
@@ -21,7 +20,7 @@ describe('FieldController', () => {
         {
           provide: FieldService,
           useValue: fieldServiceMock,
-        }
+        },
       ],
     }).compile();
 
@@ -33,12 +32,17 @@ describe('FieldController', () => {
   });
 
   it('should create a field', async () => {
-    const createFieldDto: CreateFieldDto = { name: 'Test Field', description: 'This is a test field', sport: 'Soccer', costPerHour: 50, status: 'Available' };
+    const createFieldDto: CreateFieldDto = {
+      name: 'Test Field',
+      description: 'This is a test field',
+      sport: 'Soccer',
+      costPerHour: 50,
+      status: 'Available',
+    };
     fieldServiceMock.create.mockResolvedValue(createFieldDto);
 
     const result = await controller.create(createFieldDto);
     expect(result).toEqual(createFieldDto);
     expect(fieldServiceMock.create).toHaveBeenCalledWith(createFieldDto);
   });
-
 });

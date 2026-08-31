@@ -1,4 +1,3 @@
-
 import {
   GetObjectCommand,
   DeleteObjectCommand,
@@ -30,8 +29,6 @@ export class FileService {
         ContentType: file.mimetype,
       }),
     );
-
-   
 
     return { key };
   }

@@ -20,7 +20,6 @@ export async function setupTestEnvironment() {
   process.env.DATABASE_URL = postgresContainer.getConnectionUri();
   execSync(`npx prisma migrate deploy`, { env: process.env });
 
-
   localstackContainer = await new LocalstackContainer(
     'localstack/localstack:4.9',
   ).start();
@@ -34,7 +33,6 @@ export async function setupTestEnvironment() {
   process.env.AWS_ACCESS_KEY_ID = 'test';
   process.env.AWS_SECRET_ACCESS_KEY = 'test';
   process.env.AWS_S3_BUCKET = 'test-bucket';
-
 
   const s3 = new S3Client({
     endpoint,

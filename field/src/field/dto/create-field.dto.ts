@@ -1,4 +1,4 @@
-import {  Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateFieldDto {
@@ -8,7 +8,7 @@ export class CreateFieldDto {
   description: string = '';
   @IsNotEmpty()
   sport: string = '';
-  @Type(()=> Number)
+  @Type(() => Number)
   @IsNumber()
   costPerHour: number = 0;
   @IsString()

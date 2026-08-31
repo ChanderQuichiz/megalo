@@ -4,14 +4,14 @@ import request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from '../../src/app.module';
 import { describe, beforeEach, it, afterEach, expect } from '@jest/globals';
-import { CreateFieldDto } from 'src/field/dto/create-field.dto';
+import { CreateFieldDto } from '../../src/field/dto/create-field.dto';
 describe('AppController (e2e)', () => {
   let app: INestApplication<App>;
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
-        app = moduleFixture.createNestApplication();
+    app = moduleFixture.createNestApplication();
 
     app.useGlobalPipes(
       new ValidationPipe({
@@ -41,7 +41,7 @@ describe('AppController (e2e)', () => {
       .field('status', body.status)
       .attach('files', 'test/fixtures/images.jpeg')
       .expect(201)
-      .expect((res)=>{
+      .expect((res: { body: CreateFieldDto }) => {
         expect(res.body.name).toEqual(body.name);
       });
   });

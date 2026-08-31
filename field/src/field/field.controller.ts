@@ -24,11 +24,6 @@ export class FieldController {
     FilesInterceptor('files', 5, {
       limits: { fileSize: 5 * 1024 * 1024 },
       fileFilter: (req, file, callback) => {
-          console.log('FILE:', {
-    originalname: file.originalname,
-    mimetype: file.mimetype,
-    size: file.size,
-  });
         const validTypes = ['image/jpeg', 'image/png'];
         if (!validTypes.includes(file.mimetype)) {
           return callback(

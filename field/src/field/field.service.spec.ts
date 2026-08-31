@@ -4,8 +4,12 @@ import { PrismaService } from '../prisma/prisma.service';
 import { jest } from '@jest/globals';
 import { describe, beforeEach, it, expect } from '@jest/globals';
 import { CreateFieldDto } from './dto/create-field.dto';
+import { FileService } from '../file/file.service';
 describe('FieldService', () => {
   let service: FieldService;
+  const fileServiceMock = {
+    upload: jest.fn(),
+  };
   const prismaServiceMock = {
     field: {
       create: jest.fn(),
@@ -13,6 +17,9 @@ describe('FieldService', () => {
       findUnique: jest.fn(),
       update: jest.fn(),
       delete: jest.fn(),
+    },
+    fieldImage: {
+      createMany: jest.fn(),
     },
   };
   beforeEach(async () => {
@@ -22,6 +29,10 @@ describe('FieldService', () => {
         {
           provide: PrismaService,
           useValue: prismaServiceMock,
+        },
+        {
+          provide: FileService,
+          useValue: fileServiceMock,
         },
       ],
     }).compile();
@@ -41,10 +52,34 @@ describe('FieldService', () => {
       costPerHour: 50,
       status: 'Available',
     };
-    prismaServiceMock.field.create.mockResolvedValue(createFieldDto);
 
-    const result = await service.create(createFieldDto);
-    expect(result).toEqual(createFieldDto);
+    const createFieldDtoResponse = {
+      ...createFieldDto,
+      id: 1,
+    };
+
+    const mockFile = {
+      originalname: 'field.jpg',
+      mimetype: 'image/jpeg',
+      buffer: Buffer.from('fake-image'),
+    } as Express.Multer.File;
+
+    prismaServiceMock.field.create.mockResolvedValue(createFieldDtoResponse);
+    fileServiceMock.upload.mockResolvedValue({
+      key: 'field.jpg',
+    });
+
+    prismaServiceMock.fieldImage.createMany.mockResolvedValue({
+      count: 1,
+    });
+
+    const result = await service.create(createFieldDto, [mockFile]);
+
+    expect(result).toEqual({
+      ...createFieldDtoResponse,
+      imagesUrl: [`${process.env.DOMAIN_FIELD_IMAGE}/field.jpg`],
+    });
+
     expect(prismaServiceMock.field.create).toHaveBeenCalledWith({
       data: createFieldDto,
     });

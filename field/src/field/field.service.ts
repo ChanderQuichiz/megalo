@@ -80,7 +80,7 @@ export class FieldService {
       },
     });
 
-    return result ;
+    return result;
   }
 
   async update(id: number, updateFieldDto: UpdateFieldDto) {

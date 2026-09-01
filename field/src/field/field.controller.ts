@@ -14,7 +14,9 @@ import { FieldService } from './field.service';
 import { CreateFieldDto } from './dto/create-field.dto';
 import { UpdateFieldDto } from './dto/update-field.dto';
 import { FilesInterceptor } from '@nestjs/platform-express/multer/interceptors/files.interceptor';
-
+import type { Express } from 'express';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { Multer } from 'multer';
 @Controller('api/field')
 export class FieldController {
   constructor(private readonly fieldService: FieldService) {}
@@ -47,13 +49,12 @@ export class FieldController {
     return this.fieldService.findAll();
   }
 
-
- @Get('info/:id')
+  @Get('info/:id')
   getInfoFielf(@Param('id') id: number) {
     return this.fieldService.getInfoField(id);
   }
 
-@Get(':id')
+  @Get(':id')
   findOne(@Param('id') id: number) {
     return this.fieldService.findOne(id);
   }

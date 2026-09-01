@@ -24,7 +24,6 @@ export class FieldService {
       files.map(async (file) => {
         const key = await this.fileService.upload(file);
 
-
         const imageUrl = `${this.domainFieldImage}/${key.key}`;
 
         return {

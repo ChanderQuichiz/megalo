@@ -20,7 +20,6 @@ export class FileService {
   async upload(file: Express.Multer.File) {
     const key = `uploads/${Date.now()}-${file.originalname}`;
 
- 
     await this.s3.send(
       new PutObjectCommand({
         Bucket: process.env.AWS_S3_BUCKET,
@@ -42,8 +41,8 @@ export class FileService {
         }),
       );
       return result.Body;
-    } catch (error) {
-      if (error.name === 'NoSuchKey') {
+    } catch (error: unknown) {
+      if (error instanceof Error && error.name === 'NoSuchKey') {
         throw new NotFoundException('Archivo no encontrado');
       }
       throw new InternalServerErrorException('Error al acceder a S3');
@@ -79,9 +78,9 @@ export class FileService {
 
   async getUploadUrl(key: string, contentType: string) {
     const command = new PutObjectCommand({
-        Bucket: process.env.AWS_S3_BUCKET,
-        Key: key,
-        ContentType: contentType,
+      Bucket: process.env.AWS_S3_BUCKET,
+      Key: key,
+      ContentType: contentType,
     });
     return getSignedUrl(this.s3, command, { expiresIn: 300 });
   }

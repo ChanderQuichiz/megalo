@@ -16,7 +16,7 @@ describe('AppController (e2e)', () => {
     app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true, // elimina campos no declarados en el DTO
-        forbidNonWhitelisted: true, // error si mandan campos extra.
+        forbidNonWhitelisted: true, // error si mandan campos extra
         transform: true, // convierte tipos automaticamente
       }),
     );

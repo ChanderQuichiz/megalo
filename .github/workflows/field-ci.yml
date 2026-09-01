@@ -1,9 +1,4 @@
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'field/**'
-
   pull_request:
     branches: [main]
     paths:
@@ -30,6 +25,12 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Verify linting
+        run: npm run lint
+        
+      - name: Verify build
+        run: npm run build
 
       - name: Generate Prisma client
         run: npx prisma generate

@@ -14,7 +14,7 @@ import { FieldService } from './field.service';
 import { CreateFieldDto } from './dto/create-field.dto';
 import { UpdateFieldDto } from './dto/update-field.dto';
 import { FilesInterceptor } from '@nestjs/platform-express/multer/interceptors/files.interceptor';
-//hola
+
 @Controller('api/field')
 export class FieldController {
   constructor(private readonly fieldService: FieldService) {}

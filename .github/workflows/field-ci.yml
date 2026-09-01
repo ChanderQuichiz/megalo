@@ -38,10 +38,7 @@ jobs:
         
       - name: Verify build
         run: npm run build
-
-      - name: Run database migrations
-        run: npx prisma migrate deploy
-
+        
       - name: Run unit tests
         run: npm test
 
